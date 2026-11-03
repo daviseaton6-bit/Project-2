@@ -1,0 +1,2 @@
+Aric-Made Hashtable.h, hashtable.cpp, facility.h, facilitymanager.h, facilitymanager.cpp 
+started the main.cpp, and also put in the text files
