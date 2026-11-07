@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "FacilityManager.h"
+#include "CampusGraph.h"
 
 using namespace std;
 
@@ -39,7 +40,12 @@ vector<string> loadBuildings(const string& filename)
 int main()
 {
     FacilityManager facilityManager;
-
+    CampusGraph campusGraph;
+    
+string graphFolder = ".";
+    campusGraph.loadBuildings(graphFolder);
+    campusGraph.loadConnections(graphFolder);
+    
     vector<string> buildings =
         loadBuildings("buildings.txt");
 
@@ -57,6 +63,9 @@ facilityManager.loadFacilities(
         cout << "3. Search facility by name\n";
         cout << "4. Search facility by category\n";
         cout << "5. Category report\n";
+        cout << "6. View campus graph\n";
+        cout << "7. View building counts and degrees\n";
+        cout << "8. View reachable buildings\n";
         cout << "0. Exit\n";
 
         cout << "\nChoice: ";
@@ -101,6 +110,18 @@ facilityManager.loadFacilities(
 
             case 5:
                 facilityManager.categoryReport();
+                break;
+            
+             case 6:
+                campusGraph.displayGraph();
+                break;
+
+            case 7:
+                campusGraph.displayCountsAndDegrees();
+                break;
+
+            case 8:
+                campusGraph.reachableMenu();
                 break;
         }
 
