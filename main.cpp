@@ -61,7 +61,7 @@ int main()
 
     do
     {
-        cout << "\n===== MILESTONE 1 MENU =====\n";
+        cout << "\n===== MENU =====\n";
         cout << "1. View all facilities\n";
         cout << "2. Search facility by ID\n";
         cout << "3. View campus graph\n";
