@@ -5,6 +5,7 @@
 
 #include "FacilityManager.h"
 #include "CampusGraph.h"
+#include "department_tree.h"
 
 using namespace std;
 
