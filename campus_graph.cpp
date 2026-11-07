@@ -146,7 +146,7 @@ void CampusGraph::loadBuildings(string folder)
             accepted = accepted + 1;
         }
     }
-    cout << "Loaded " << filename << ": " << accepted << "accepeted, "
+    cout << "Loaded " << filename << ": " << accepted << "accepted, "
         << rejected << " rejected" << endl;
 }
 
