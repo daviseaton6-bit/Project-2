@@ -1,0 +1,92 @@
+TEST RESULTS
+
+
+
+DEPARTMENT_TREE TESTING
+
+Test 1: Empty tree (Root Addition)
+Input:    Add "University" (No parent prompt)
+Expected: Root created successfully
+Actual:   department added successfully
+Result:   PASSED
+
+Test 2: Root-Only Tree Display
+Input:    Display Hierarchy
+Expected: Only "University" displayed
+Actual:   University
+Result:   PASSED
+
+Test 3: Search Root
+Input:    Search "University"
+Expected: Found: University, Parent: none, Depth: 0
+Actual:   name: University
+parent: none
+children: 0
+depth: 0
+Result:   PASSED
+
+Test 4: Search Non-Root
+Input:    Add "Engineering" (Parent: University) then search "Engineering"
+Expected: Found: Engineering, Parent: University, Depth: 1
+Actual:   name: Engineering
+parent: University
+children: 0
+depth: 1
+Result:   PASSED
+
+Test 5: Search Missing Department
+Input:    Search "Unknown"
+Expected: "not found"
+Actual:   not found
+Result:   PASSED
+
+Test 6: Add with Unknown Parent
+Input:    Add "Biology" (Parent: Mars)
+Expected: "error: could not add department (duplicate name or invalid parent)"
+Actual:   error: could not add department (duplicate name or invalid parent)
+Result:   PASSED
+
+Test 7: Add Duplicate Name
+Input:    Add "University" (Existing root)
+Expected: "error: could not add department (duplicate name or invalid parent)"
+Actual:   error: could not add department (duplicate name or invalid parent)
+Result:   PASSED
+
+Test 8: Preorder Traversal
+Input:    Run Preorder Traversal
+Expected: Sequence of department names without indentation
+Actual:   University Engineering
+Result:   PASSED
+
+Test 9: Invalid Menu Input (Non-Numeric)
+Input:    Choice: "abc"
+Expected: Program handles input without crashing, returns to menu
+Actual:   (Menu redisplays)
+Result:   PASSED
+
+Test 10: Text at Numeric Prompts
+Input:    Choice: "hello"
+Expected: Program handles input without crashing, returns to menu
+Actual:   (Menu redisplays)
+Result:   PASSED
+
+Test 11: Names Containing Spaces
+Input:    Add "Computer Science" (Parent: University)
+Expected: Successfully added and searchable
+Actual:   department added successfully
+Result:   PASSED
+
+Test 12: Blank Names
+Input:    Add "" (Blank name)
+Expected: "error: could not add department (duplicate name or invalid parent)"
+Actual:   error: could not add department (duplicate name or invalid parent)
+Result:   PASSED
+
+Test 13: Repeated Operations After Errors
+Input:    Fail an Add (Duplicate) then successfully add a new one
+Expected: Program recovers and allows valid addition
+Actual:   (Error message) then department added successfully
+Result:   PASSED
+
+END OF DEPARTMENT_TREE TESTING
+
