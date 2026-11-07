@@ -15,7 +15,7 @@ string graphTrim(string word)
     }
     while (end >= start && (word[end] == ' ' || word[end] == '\t' || word[end] == '\r'))
     {
-        end = end = 1;
+        end = end - 1;
     }
     return word.substr(start, end - start + 1);
 }
@@ -36,7 +36,7 @@ string graphLower(string word)
 vector<string> graphSplit(string line)
 {
     vector<string> pieces;
-    string current = " ";
+    string current = "";
 
     int size = line.size();
     for (int i = 0; i < size; i++)
@@ -44,7 +44,7 @@ vector<string> graphSplit(string line)
         if (line[i] == '|') 
         {
             pieces.push_back(graphTrim(current));
-            current = " ";
+            current = "";
         }
         else
         {
@@ -79,7 +79,7 @@ int CampusGraph:: findBuilding(string name) const
 }
 
 string CampusGraph::buildingName(int number) const
-{
+{ 
     return names[number];
 }
 
@@ -91,7 +91,11 @@ void CampusGraph::loadBuildings(string folder)
     int accepted = 0;
     int rejected = 0;
 
-    ifstream file((folder + "/" + filename).c_str());
+     string path = folder + "/" + filename;
+    if (folder.size() >= 4 && folder.substr(folder.size() - 4) == ".txt") {
+        path = folder;}
+
+    ifstream file(path.c_str());
     
     if (!file)
     {
@@ -154,7 +158,12 @@ void CampusGraph::loadConnections(string folder)
     int accepted = 0;
     int rejected = 0;
 
-    ifstream file((folder + "/" + filename).c_str());
+        string path = folder + "/" + filename;
+    if (folder.size() >= 4 && folder.substr(folder.size() - 4) == ".txt") {
+        path = folder;}
+
+
+    ifstream file(path.c_str());
 
     if (!file)
     {
@@ -351,4 +360,3 @@ void CampusGraph::reachableMenu() {
     cout << "Reachable: " << reachableCount << " out of " 
         << total << " buildings" << endl;
 }
-
