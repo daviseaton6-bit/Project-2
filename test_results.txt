@@ -90,3 +90,53 @@ Result:   PASSED
 
 END OF DEPARTMENT_TREE TESTING
 
+CAMPUS_GRAPH TESTING
+
+Test 1: Load graph files 
+Input: Start the program with the sample data folder (no menu choice) 
+Expected: buildings.txt: 7 accepted, 0 rejected; connections.txt: 6 accepted, 0 rejected 
+Actual: Loaded buildings.txt: 7 accepted, 0 rejected 
+        Loaded connections.txt: 6 accepted, 0 rejected 
+Result: PASSED 
+
+Test 2: Counts and Degrees 
+Input:    Display graph counts and degrees 
+Expected: Total buildings: 7, Total connections: 6, degree of each building 
+          (Library 2, Student Union 3, Science Building 2, Engineering Building 1, 
+           Business Building 2, Gym 2, Observatory 0) 
+Actual:   Total buildings: 7 
+          Total connections: 6 
+          Degree of each building: 
+          Library: 2 
+          Student Union: 3 
+          Science Building: 2 
+          Engineering Building: 1 
+          Business Building: 2 
+          Gym: 2
+          Observatory: 0 
+Result:   PASSED
+
+Test 3: BFS from Library 
+Input:    Find reachable buildings, enter "Library" 
+Expected: Library (0), Student Union (1), Business Building (1), Science Building (2), 
+          Gym (2), Engineering Building (3), Reachable: 6 of 7 buildings 
+Actual:   Buildings reachable from Library: 
+          Library (distance 0) 
+          Student Union (distance 1) 
+          Business Building (distance 1) 
+          Science Building (distance 2) 
+          Gym (distance 2) 
+          Engineering Building (distance 3) 
+          Reachable: 6 of 7 buildings 
+Result:   PASSED 
+
+Test 4: BFS from an isolated building 
+Input:    Find reachable buildings, enter "Observatory" 
+Expected: Observatory (distance 0), Reachable: 1 of 7 buildings 
+Actual:   Buildings reachable from Observatory: 
+          Observatory (distance 0) 
+          Reachable: 1 of 7 buildings 
+Result:   PASSED 
+
+END OF CAMPUS_GRAPH TESTING.
+
