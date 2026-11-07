@@ -41,31 +41,35 @@ int main()
 {
     FacilityManager facilityManager;
     CampusGraph campusGraph;
-    
-string graphFolder = ".";
+
+    DepartmentTree* deptTree = createTree();
+    loadDepartments(deptTree, "departments.txt");
+
+    string graphFolder = ".";
     campusGraph.loadBuildings(graphFolder);
     campusGraph.loadConnections(graphFolder);
-    
+
     vector<string> buildings =
         loadBuildings("buildings.txt");
 
-facilityManager.loadFacilities(
-    "facilities.txt",
-    buildings);
+    facilityManager.loadFacilities(
+        "facilities.txt",
+        buildings);
 
     int choice;
 
     do
     {
-        cout << "\n===== MENU =====\n";
+        cout << "\n===== MILESTONE 1 MENU =====\n";
         cout << "1. View all facilities\n";
         cout << "2. Search facility by ID\n";
-        cout << "3. Search facility by name\n";
-        cout << "4. Search facility by category\n";
-        cout << "5. Category report\n";
-        cout << "6. View campus graph\n";
-        cout << "7. View building counts and degrees\n";
-        cout << "8. View reachable buildings\n";
+        cout << "3. View campus graph\n";
+        cout << "4. Display graph counts and degrees\n";
+        cout << "5. Find reachable buildings (BFS)\n";
+        cout << "6. Add department\n";
+        cout << "7. Search department\n";
+        cout << "8. Display department hierarchy\n";
+        cout << "9. Run preorder traversal\n";
         cout << "0. Exit\n";
 
         cout << "\nChoice: ";
@@ -89,43 +93,77 @@ facilityManager.loadFacilities(
             }
 
             case 3:
-            {
-                string name;
-                cout << "Enter Name: ";
-                getline(cin, name);
-
-                facilityManager.searchByName(name);
-                break;
-            }
-
-            case 4:
-            {
-                string category;
-                cout << "Enter Category: ";
-                getline(cin, category);
-
-                facilityManager.searchByCategory(category);
-                break;
-            }
-
-            case 5:
-                facilityManager.categoryReport();
-                break;
-            
-             case 6:
                 campusGraph.displayGraph();
                 break;
 
-            case 7:
+            case 4:
                 campusGraph.displayCountsAndDegrees();
                 break;
 
-            case 8:
+            case 5:
                 campusGraph.reachableMenu();
                 break;
+
+            case 6: {
+                string name, parent;
+                cout << "enter department name: "; getline(cin, name);
+                if (deptTree->root) {
+                    cout << "enter parent name: "; getline(cin, parent);
+                }
+                if (!addDepartment(deptTree, name, parent)) {
+                    cout << "error: could not add department (duplicate name or invalid parent)" << endl;
+                } else {
+                    cout << "department added successfully" << endl;
+                }
+                break;
+            }
+
+            case 7: {
+                string name;
+                cout << "enter name: "; getline(cin, name);
+                DepartmentNode* found = searchDepartment(deptTree->root, name);
+                if (found) {
+                    cout << "name: " << found->name
+                         << "\nparent: " << (found->parent ? found->parent->name : "none")
+                         << "\nchildren: " << found->children.size()
+                         << "\ndepth: " << getDepth(found) << endl;
+                } else {
+                    cout << "not found" << endl;
+                }
+                break;
+            }
+
+            case 8:
+                displayHierarchy(deptTree->root, 0);
+                break;
+
+            case 9: {
+                vector<string> result;
+                preorderTraversal(deptTree->root, result);
+                for (const auto& s : result) cout << s << " ";
+                cout << endl;
+                break;
+            }
+
+
+            /*
+            case 3: // Search facility by name
+                // facilityManager.searchByName(name);
+                break;
+            case 4: // Search facility by category
+                // facilityManager.searchByCategory(category);
+                break;
+            case 5: // Category report
+                // facilityManager.categoryReport();
+                break;
+            */
         }
 
+
     } while (choice != 0);
+
+    destroyTree(deptTree->root);
+    delete deptTree;
 
     return 0;
 }
