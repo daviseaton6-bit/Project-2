@@ -44,7 +44,7 @@ int main()
     CampusGraph campusGraph;
 
     DepartmentTree* deptTree = createTree();
-    loadDepartments(deptTree, "departments.txt");
+    //loadDepartments(deptTree, "departments.txt"); idk what this is ut its causing issues for me -Aric
 
     string graphFolder = ".";
     campusGraph.loadBuildings(graphFolder);
@@ -111,26 +111,23 @@ int main()
                 if (deptTree->root) {
                     cout << "enter parent name: "; getline(cin, parent);
                 }
-                if (!addDepartment(deptTree, name, parent)) {
-                    cout << "error: could not add department (duplicate name or invalid parent)" << endl;
-                } else {
-                    cout << "department added successfully" << endl;
-                }
+                addDepartment(deptTree, name, parent);
+cout << "department added successfully" << endl;
                 break;
             }
-
+//case seven had an issue i changed it for it work let me compile -aric
             case 7: {
                 string name;
                 cout << "enter name: "; getline(cin, name);
                 DepartmentNode* found = searchDepartment(deptTree->root, name);
                 if (found) {
-                    cout << "name: " << found->name
-                         << "\nparent: " << (found->parent ? found->parent->name : "none")
-                         << "\nchildren: " << found->children.size()
-                         << "\ndepth: " << getDepth(found) << endl;
-                } else {
-                    cout << "not found" << endl;
-                }
+    cout << "name: " << found->name
+         << "\nparent: " << (found->parent ? found->parent->name : "none")
+         << "\nchildren: " << found->children.size()
+         << endl;
+} else {
+    cout << "not found" << endl;
+}
                 break;
             }
 

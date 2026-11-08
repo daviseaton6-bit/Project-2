@@ -8,4 +8,9 @@ F006|Computer Lab B|Engineering Building|Computer Lab
 F007|Room 101|Business Building|Classroom
 F008|Fitness Center|Gym|Recreation
 F009|Room 205|Science Building|Classroom
+
 F010|Research Help Desk|Library|Library
+F001|Main Reading Room|Library|Library
+F011|Broken Record|Library
+F001|Room A|Library|Library
+F999|Secret Room|Moon Base|Classroom

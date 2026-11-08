@@ -140,3 +140,64 @@ Result:   PASSED
 
 END OF CAMPUS_GRAPH TESTING.
 
+HASH TABLE TESTING
+
+Test 1: Successful ID Search
+Input:    Search Facility ID "F004"
+Expected: Facility found and displayed
+Actual:   F004 | Computer Lab A | Science Building | Computer Lab
+Result:   PASSED
+
+Test 2: Lowercase ID Search
+Input:    Search Facility ID "f004"
+Expected: Converted to uppercase and found
+Actual:   F004 | Computer Lab A | Science Building | Computer Lab
+Result:   PASSED
+
+Test 3: Invalid Format Search
+Input:    Search Facility ID "004"
+Expected: Invalid format message
+Actual:   Invalid format. Must be F followed by 3 digits.
+Result:   PASSED
+
+Test 4: Not Found Search
+Input:    Search Facility ID "F999"
+Expected: Not found message
+Actual:   Not found: F999
+Result:   PASSED
+
+Test 5: Duplicate ID Rejection
+Input:    Add duplicate facility ID F001
+Expected: Duplicate rejected and record not inserted
+Actual:   Duplicate ID rejected during facility loading
+Result:   PASSED
+
+Test 6: Collision Test
+Input:    Collision test dataset containing multiple IDs hashing to the same bucket
+Expected: Facilities accepted and collision count greater than 0
+Actual:   Collision count increased and all unique records remained searchable
+Result:   PASSED
+
+Test 7: Collision Count Unchanged by Duplicate
+Input:    Attempt to insert duplicate facility ID into occupied bucket
+Expected: Duplicate rejected and collision count unchanged
+Actual:   Duplicate rejected and collision count unchanged
+Result:   PASSED
+
+END OF HASH TABLE TESTING
+
+FILE LOADING TESTING
+
+Test 1: Valid Facility Records
+Input:    Original facilities.txt
+Expected: All valid facility records loaded successfully
+Actual:   Accepted: 10, Rejected: 0
+Result:   PASSED
+
+Test 2: Missing File
+Input:    facilityManager.loadFacilities("missing.txt", buildings)
+Expected: Error opening file message
+Actual:   Error opening file: missing.txt
+Result:   PASSED
+
+END OF FILE LOADING TESTING
