@@ -22,5 +22,6 @@ DepartmentNode* searchDepartment(DepartmentNode* node, const string& name);
 void displayHierarchy(DepartmentNode* node, int depth);
 void preorderTraversal(DepartmentNode* node, vector<string>& result);
 void destroyTree(DepartmentNode* node);
+void loadDepartments(DepartmentTree* tree, const string& filename);
 
 #endif
