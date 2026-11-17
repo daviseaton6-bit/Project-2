@@ -84,3 +84,30 @@ void destroyTree(DepartmentNode* node) {
     }
     delete node;
 }
+// load departments from txt
+void loadDepartments(DepartmentTree* tree, const string& filename) {
+    ifstream file(filename);
+    if (!file) {
+        cout << "could not open " << filename << "\n";
+        return;
+    }
+
+    string line;
+    while (getline(file, line)) {
+        line = trim(line);
+        if (line.empty() || line[0] == '#') continue;
+
+        size_t bar = line.find('|');
+        if (bar == string::npos) {
+            addDepartment(tree, line, "");
+            continue;
+        }
+
+        string name = trim(line.substr(0, bar));
+        string parent = trim(line.substr(bar + 1));
+
+      
+        if (iequals(parent, "NONE")) parent = "";
+        addDepartment(tree, name, parent);
+    }
+}
