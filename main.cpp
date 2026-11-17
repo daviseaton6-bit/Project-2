@@ -44,7 +44,7 @@ int main()
     CampusGraph campusGraph;
 
     DepartmentTree* deptTree = createTree();
-    //loadDepartments(deptTree, "departments.txt"); idk what this is ut its causing issues for me -Aric
+    loadDepartments(deptTree, "departments.txt");
 
     string graphFolder = ".";
     campusGraph.loadBuildings(graphFolder);
