@@ -360,3 +360,266 @@ void CampusGraph::reachableMenu() {
     cout << "Reachable: " << reachableCount << " out of " 
         << total << " buildings" << endl;
 }
+// Shortest Path 
+
+void CampusGraph::shortestPathMenu()
+
+{
+
+    cout << "Enter starting building: ";
+
+    string startTyped;
+
+    getline(cin, startTyped);
+
+    startTyped = graphTrim(startTyped);
+
+    if (startTyped == "") {
+
+        cout << "Error: the building name cannot be blank." << endl;
+
+        return;
+
+    }
+    cout << "Enter destination building: ";
+
+    string endTyped;
+
+    getline(cin, endTyped);
+
+    endTyped = graphTrim(endTyped);
+
+    if (endTyped == "") {
+
+        cout << "Error: the building name cannot be blank." << endl;
+
+        return;
+
+    }
+
+    int start = findBuilding(startTyped);
+
+    int end = findBuilding(endTyped);
+
+    if (start == -1) {
+
+        cout << "Error: unknown start building " << startTyped << endl;
+
+    }
+
+    if (end == -1) {
+
+        cout << "Error: unknown destination building " << endTyped << endl;
+
+    }
+
+    if (start == -1 || end == -1) {
+
+        return;
+    }
+    int total = names.size();
+
+    vector<int> cameFrom(total, -1);
+
+    vector<int> visited(total, 0);
+
+    queue<int> line;
+
+    visited[start] = 1;
+
+    line.push(start);
+
+    while (line.empty() == false) {
+
+        int current = line.front();
+
+        line.pop();
+
+        int howMany = neighbors[current].size();
+
+        for (int i = 0; i < howMany; i++) {
+
+            int next = neighbors[current][i];
+            if (visited[next] == 0) {
+
+                visited[next] = 1;
+
+                cameFrom[next] = current;
+
+                line.push(next);
+
+            }
+        }
+    }
+    if (visited[end] == 0) {
+
+        cout << "No path exists from " << names[start] << " to " << names[end] << "." << endl;
+
+        return;
+
+    }
+
+    vector<int> backwards;
+
+    int spot = end;
+
+    while (spot != -1) {
+
+        backwards.push_back(spot);
+
+        spot = cameFrom[spot];
+
+    }
+
+    cout << "Shortest path:" << endl;
+
+    int steps = backwards.size();
+
+    for (int i = steps - 1; i >= 0; i--) {
+
+        cout << "  " << names[backwards[i]] << endl;
+
+    }
+
+    cout << "Number of connections: " << steps - 1 << endl;
+
+}
+
+// connectivity report 
+
+void CampusGraph::connectivityReport() {
+
+    int total = names.size();
+
+    cout << "Graph connectivity report" << endl;
+
+    cout << "Total buildings: " << total << endl;
+
+    cout << "Total connections: " << connectionCount << endl;
+
+    if (total == 0) {
+
+        cout << "There are no buildings loaded." << endl;
+
+        cout << "Connected components: 0" << endl;
+
+        return;
+
+    }
+
+    int biggest = 0;
+
+    for (int i = 0; i < total; i++) {
+
+        int degree = neighbors[i].size();
+
+        if (degree > biggest) {
+
+            biggest = degree;
+
+        }
+
+    }
+
+    cout << "Highest degree (" << biggest << "): ";
+
+    bool firstOne = true;
+
+    for (int i = 0; i < total; i++) {
+
+        int degree = neighbors[i].size();
+
+        if (degree == biggest) {
+
+            if (firstOne == false) {
+
+                cout << ", ";
+
+            }
+
+            cout << names[i];
+
+            firstOne = false;
+
+        }
+    }
+
+    cout << endl;
+
+    cout << "Isolated buildings: ";
+
+    bool foundOne = false;
+
+    for (int i = 0; i < total; i++) {
+
+        int degree = neighbors[i].size();
+
+        if (degree == 0) {
+
+            if (foundOne == true) {
+
+                cout << ", ";
+
+            }
+
+            cout << names[i];
+            foundOne = true;
+        }
+
+    }
+
+    if (foundOne == false) 
+    {
+        cout << "None";
+    }
+
+    cout << endl;
+
+    vector<int> visited(total, 0);
+
+    int groups = 0;
+
+    for (int i = 0; i < total; i++) {
+
+        if (visited[i] == 0) {
+
+            groups = groups + 1;
+
+            queue<int> line;
+
+            visited[i] = 1;
+
+            line.push(i);
+
+            while (line.empty() == false) 
+            {
+                int current = line.front();
+
+                line.pop();
+
+                int howMany = neighbors[current].size();
+
+                for (int j = 0; j < howMany; j++)
+                {
+
+                    int next = neighbors[current][j];
+
+                    if (visited[next] == 0)
+                    {
+
+                        visited[next] = 1;
+
+                        line.push(next);
+
+                    }
+                }
+            }
+        }
+    }
+    cout << "Connected components: " << groups << endl;
+}
+
+
+
+
+
