@@ -9,9 +9,11 @@
 
 using namespace std;
 
-
-//Helper Functions
-
+/*
+--------------------------------------------------
+Helper Functions
+--------------------------------------------------
+*/
 
 string FacilityManager::trim(string str)
 {
@@ -32,7 +34,7 @@ string FacilityManager::trim(string str)
 
 string FacilityManager::toUpper(string str)
 {
-    for (char &c : str)
+    for (char& c : str)
     {
         c = toupper(static_cast<unsigned char>(c));
     }
@@ -59,9 +61,11 @@ bool FacilityManager::validID(string id)
     return true;
 }
 
-
-//Load Facilities
-
+/*
+--------------------------------------------------
+Load Facilities
+--------------------------------------------------
+*/
 
 bool FacilityManager::loadFacilities(
     const string& filename,
@@ -176,21 +180,16 @@ bool FacilityManager::loadFacilities(
             continue;
         }
 
-        Facility facility;
+        Facility* facility = new Facility;
 
-        facility.id = id;
-        facility.name = name;
-        facility.building = building;
-        facility.category = category;
+        facility->id = id;
+        facility->name = name;
+        facility->building = building;
+        facility->category = category;
 
-        facilities.push_back(facility);
-
-        Facility* ptr =
-            &facilities.back();
-
-        if (!facilityTable.insert(ptr))
+        if (!facilityTable.insert(facility))
         {
-            facilities.pop_back();
+            delete facility;
 
             cout << "Warning: "
                  << filename
@@ -202,6 +201,8 @@ bool FacilityManager::loadFacilities(
             rejected++;
             continue;
         }
+
+        facilities.push_back(facility);
 
         accepted++;
     }
@@ -228,9 +229,11 @@ bool FacilityManager::loadFacilities(
     return true;
 }
 
-
-//Display All Facilities
-
+/*
+--------------------------------------------------
+Display All Facilities
+--------------------------------------------------
+*/
 
 void FacilityManager::displayFacilities() const
 {
@@ -241,15 +244,15 @@ void FacilityManager::displayFacilities() const
         return;
     }
 
-    for (const auto& f : facilities)
+    for (const auto* f : facilities)
     {
-        cout << f.id
+        cout << f->id
              << " | "
-             << f.name
+             << f->name
              << " | "
-             << f.building
+             << f->building
              << " | "
-             << f.category
+             << f->category
              << endl;
     }
 
@@ -258,50 +261,53 @@ void FacilityManager::displayFacilities() const
          << endl;
 }
 
-
-//Search By ID
-
+/*
+--------------------------------------------------
+Search By ID
+--------------------------------------------------
+*/
 
 void FacilityManager::searchByID(
     const std::string& input)
 {
-    std::string id =
+    string id =
         toUpper(trim(input));
 
     if (!validID(id))
     {
-        std::cout
-            << "Invalid format.\n";
+        cout << "Invalid format."
+             << endl;
         return;
     }
 
-    // TEMP TEST
-    for (const auto& f : facilities)
+    Facility* found =
+        facilityTable.search(id);
+
+    if (found == nullptr)
     {
-        if (f.id == id)
-        {
-            std::cout << "\nFound:\n";
-
-            std::cout
-                << f.id << " | "
-                << f.name << " | "
-                << f.building << " | "
-                << f.category
-                << std::endl;
-
-            return;
-        }
+        cout << "Not found: "
+             << id
+             << endl;
+        return;
     }
 
-    std::cout
-        << "Not found: "
-        << id
-        << std::endl;
+    cout << "\nFound:\n";
+
+    cout << found->id
+         << " | "
+         << found->name
+         << " | "
+         << found->building
+         << " | "
+         << found->category
+         << endl;
 }
 
-
-//Search By Name
-
+/*
+--------------------------------------------------
+Search By Name
+--------------------------------------------------
+*/
 
 void FacilityManager::searchByName(
     const string& input)
@@ -311,17 +317,17 @@ void FacilityManager::searchByName(
 
     int matches = 0;
 
-    for (const auto& f : facilities)
+    for (const auto* f : facilities)
     {
-        if (toUpper(f.name) == target)
+        if (toUpper(f->name) == target)
         {
-            cout << f.id
+            cout << f->id
                  << " | "
-                 << f.name
+                 << f->name
                  << " | "
-                 << f.building
+                 << f->building
                  << " | "
-                 << f.category
+                 << f->category
                  << endl;
 
             matches++;
@@ -333,10 +339,11 @@ void FacilityManager::searchByName(
          << endl;
 }
 
-
-
-//Search By Category
-
+/*
+--------------------------------------------------
+Search By Category
+--------------------------------------------------
+*/
 
 void FacilityManager::searchByCategory(
     const string& input)
@@ -346,18 +353,17 @@ void FacilityManager::searchByCategory(
 
     int matches = 0;
 
-    for (const auto& f : facilities)
+    for (const auto* f : facilities)
     {
-        if (toUpper(f.category)
-            == target)
+        if (toUpper(f->category) == target)
         {
-            cout << f.id
+            cout << f->id
                  << " | "
-                 << f.name
+                 << f->name
                  << " | "
-                 << f.building
+                 << f->building
                  << " | "
-                 << f.category
+                 << f->category
                  << endl;
 
             matches++;
@@ -391,7 +397,7 @@ void FacilityManager::categoryReport()
     vector<string> categories;
     vector<int> counts;
 
-    for (const auto& f : facilities)
+    for (const auto* f : facilities)
     {
         bool found = false;
 
@@ -399,9 +405,8 @@ void FacilityManager::categoryReport()
              i < categories.size();
              i++)
         {
-            if (toUpper(categories[i])
-                ==
-                toUpper(f.category))
+            if (toUpper(categories[i]) ==
+                toUpper(f->category))
             {
                 counts[i]++;
                 found = true;
@@ -412,7 +417,7 @@ void FacilityManager::categoryReport()
         if (!found)
         {
             categories.push_back(
-                f.category);
+                f->category);
 
             counts.push_back(1);
         }
@@ -431,10 +436,8 @@ void FacilityManager::categoryReport()
         cout << left
              << setw(25)
              << categories[i]
-
              << setw(8)
              << counts[i]
-
              << fixed
              << setprecision(1)
              << percent

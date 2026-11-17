@@ -10,7 +10,7 @@
 class FacilityManager
 {
 private:
-    std::vector<Facility> facilities;
+    std::vector<Facility*> facilities;
     HashTable facilityTable;
 
 public:
