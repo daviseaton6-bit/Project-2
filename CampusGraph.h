@@ -19,7 +19,8 @@ public:
 	void displayGraph();
 	void displayCountsAndDegrees();
 	void reachableMenu();
-	
+	void shortestPathMenu();
+	void connectivityReport();
 
 private:
 	vector<string> names;
