@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <queue>
 using namespace std;
 
 // trim surrounding whitespace
@@ -26,6 +27,11 @@ bool iequals(const string& a, const string& b) {
 // alocate empty tree
 DepartmentTree* createTree() {
     return new DepartmentTree{nullptr};
+}
+
+// destructor frees every node through destroyTree
+DepartmentTree::~DepartmentTree() {
+    destroyTree(root);
 }
 
 // recursive case insensitive search
@@ -77,6 +83,70 @@ void preorderTraversal(DepartmentNode* node, vector<string>& result) {
     }
 }
 
+// children first, then the node
+void postorderTraversal(DepartmentNode* node, vector<string>& result) {
+    if (!node) return;
+    for (auto child : node->children) {
+        postorderTraversal(child, result);
+    }
+    result.push_back(node->name);
+}
+
+// queue based breadth first visit order
+void levelOrderTraversal(DepartmentNode* node, vector<string>& result) {
+    if (!node) return;
+    queue<DepartmentNode*> pending;
+    pending.push(node);
+    while (!pending.empty()) {
+        DepartmentNode* current = pending.front();
+        pending.pop();
+        result.push_back(current->name);
+        for (auto child : current->children) {
+            pending.push(child);
+        }
+    }
+}
+
+// height of a subtree counted in edges
+static int subtreeHeight(DepartmentNode* node) {
+    if (!node) return -1;
+    int best = -1;
+    for (auto child : node->children) {
+        int height = subtreeHeight(child);
+        if (height > best) best = height;
+    }
+    return best + 1;
+}
+
+// recursive totals and leaf count
+static void countNodes(DepartmentNode* node, int& total, int& leaves) {
+    if (!node) return;
+    ++total;
+    if (node->children.empty()) ++leaves;
+    for (auto child : node->children) {
+        countNodes(child, total, leaves);
+    }
+}
+
+// totals leaves and tree height
+void treeStatistics(DepartmentTree* tree) {
+    if (!tree->root) {
+        cout << "no departments loaded\n";
+        cout << "total departments: 0\n";
+        cout << "leaf departments: 0\n";
+        cout << "tree height: n/a\n";
+        return;
+    }
+
+    int total = 0;
+    int leaves = 0;
+    countNodes(tree->root, total, leaves);
+
+    cout << "total departments: " << total << "\n";
+    cout << "leaf departments: " << leaves << "\n";
+    cout << "tree height: " << subtreeHeight(tree->root) << "\n";
+}
+
 // recursive heap cleanup
 void destroyTree(DepartmentNode* node) {
     if (!node) return;
@@ -107,7 +177,7 @@ void loadDepartments(DepartmentTree* tree, const string& filename) {
         string name = trim(line.substr(0, bar));
         string parent = trim(line.substr(bar + 1));
 
-      
+
         if (iequals(parent, "NONE")) parent = "";
         addDepartment(tree, name, parent);
     }
