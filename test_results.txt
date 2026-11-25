@@ -138,6 +138,55 @@ Actual:   Buildings reachable from Observatory:
           Reachable: 1 of 7 buildings 
 Result:   PASSED 
 
+Test 5: Shortest path
+Input:  Find shortest path, start "Library", destination "Engineering Building"
+Expected: Library
+          Student Union
+          Science Building
+          Engineering Building
+          Number of connections: 3
+Actual: Shortest path:
+        Library
+        Student Union
+        Science Building
+        Engineering Building
+        Number of connections: 3
+Result: PASSED
+
+Test 6: Shortest path with a tie
+Input: Find the shortest path, start "Library", destination "Gym"
+Expected: Library
+          Student Union
+          Gym
+          Number of connections: 2
+Actual: Library
+        Student Union
+        Gym
+        Number of connections: 2
+Result: PASSED
+
+Test 7: Shortest path same building
+Input: Find the shortest path, start "Library", destination "Library"
+Expected: Library
+          Number of connections: 0
+Actual: Library
+        Number of connections: 0
+Result: PASSED
+
+Test 8: Connectivity Report
+Input: Graph connectivity report
+Expected: Total buildings: 7
+          Total connections: 6
+          Highest degree (3): Student Union
+          Isolated buildings: Observatory
+          Connected components: 2
+Actual: Total buildings: 7
+        Total connections: 6
+        Highest degree (3): Student Union
+        Isolated buildings: Observatory
+        Connected components: 2
+Result: Passed.
+
 END OF CAMPUS_GRAPH TESTING.
 
 HASH TABLE TESTING
